@@ -28,7 +28,7 @@ public abstract class Product {
     }
 
     public void setPrice(double price) {
-        if(price > 0) throw new IllegalArgumentException("Price needs to be larger then 0");
+        if(price <= 0) throw new IllegalArgumentException("Price needs to be larger then 0");
         this.price = price;
     }
 

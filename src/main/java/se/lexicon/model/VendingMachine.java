@@ -3,7 +3,7 @@ package se.lexicon.model;
 public class VendingMachine implements IVendingMachine {
     private double depositPool;
     private Product[] products;
-    private int[] validCurrency = {1,2,5,10,20,50,100,200,500,1000};
+    private final int[] validCurrency = {1,2,5,10,20,50,100,200,500,1000};
 
     public VendingMachine(Product[] products) {
         depositPool = 0;
@@ -18,7 +18,7 @@ public class VendingMachine implements IVendingMachine {
                 return;
             }
         }
-        throw new IllegalArgumentException("Error: Not a valid amount!");
+        throw new IllegalArgumentException("Error: Not a valid coin!");
     }
 
     @Override
