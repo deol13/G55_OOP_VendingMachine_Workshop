@@ -10,82 +10,85 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ConsoleUI {
+
+    // ANSI color codes
+    public static final String RESET = "\u001B[0m";
+    public static final String RED = "\u001B[31m";
+    public static final String GREEN = "\u001B[32m";
+    public static final String YELLOW = "\u001B[33m";
+    public static final String BLUE = "\u001B[34m";
+    public static final String CYAN = "\u001B[36m";
+    public static final String PURPLE = "\u001B[35m";
+
     public static void start(Product[] products) {
         VendingMachine vendingMachine = new VendingMachine(products);
         Scanner scanner = new Scanner(System.in);
         boolean session = true;
 
+        System.out.println(CYAN + "Welcome to Odins Vending Machine"+ RESET);
+
         while (session){
-            System.out.println("Welcome to Odins Vending Machine");
             System.out.println("------------------");
-            System.out.println("1: Add currency");
-            System.out.println("2: Get the list of items offered.");
-            System.out.println("3: Get the description of an item with its ID.");
-            System.out.println("4: Request item with an ID.");
-            System.out.println("5: Get your current balance.");
-            System.out.println("6: End session");
+            System.out.println(BLUE + "1: View Products"+ RESET);
+            System.out.println(BLUE + "2: Insert money."+ RESET);
+            System.out.println(BLUE + "3: Buy item"+ RESET);
+            System.out.println(BLUE + "4: Check balance"+ RESET);
+            System.out.println(BLUE + "5: Get more details of an item."+ RESET);
+            System.out.println(BLUE + "6: End session"+ RESET);
             System.out.println("------------------");
-            System.out.println("Your choice: ");
+            System.out.println(PURPLE + "Your choice: "+ RESET);
 
             String input = scanner.nextLine();
             int id = -1;
 
             switch (input) {
                 case "1":
-                    System.out.println("Add new amount (1,2,5,10,20,50,100,200,500,1000)");
-                    try{
-                        input = scanner.nextLine();
-                        int amount = Integer.parseInt(input);
-                        vendingMachine.addCurrency(amount);
-                    }
-                    catch (InputMismatchException e){
-                        System.out.println("Only numbers allowed");
-                    }
-                    catch (Exception e) {
-                        System.out.println(e.getMessage());
-                    }
-                    break;
-                case "2":
-                    System.out.println("List of items: ");
+                    //System.out.println("List of items: ");
                     String[] productsInfo = vendingMachine.getProducts();
                     for (String item : productsInfo) {
-                        System.out.println(item);
+                        System.out.println(GREEN + item + RESET);
                     };
                     break;
-                case "3":
-                    System.out.println("Input an id:");
+                case "2":
+                    System.out.println(PURPLE + "Add a coin (1,2,5,10,20,50,100,200,500,1000)" + RESET);
                     try{
-                        input = scanner.nextLine();
-                        id = Integer.parseInt(input);
-                        System.out.println(vendingMachine.getDescription(id));
-                    } catch (InputMismatchException e){
-                        System.out.println("Only numbers allowed");
+                        int amount  = Integer.parseInt(scanner.nextLine());
+                        vendingMachine.addCurrency(amount);
+                        System.out.println(GREEN + "You inserted: " + amount + " SEK" + RESET);
                     }
                     catch (Exception e) {
-                        System.out.println(e.getMessage());
+                        System.out.println(RED + "Invalid input: " + e.getMessage() + RESET);
+                    }
+                    break;
+                case "3":
+                    System.out.println(PURPLE + "Enter a product id to buy"  + RESET);
+                    Product p = null;
+                    try{
+                        id  = Integer.parseInt(scanner.nextLine());
+                        p = vendingMachine.request(id);
+                        System.out.println("You bought: " + p.getProductName() + RESET);
+                        System.out.println(GREEN + p.use() + RESET);
+                    }
+                    catch (Exception e) {
+                        System.out.println(RED + "Error: " + e.getMessage() + RESET);
                     }
                     break;
                 case "4":
-                    System.out.println("Input an id:");
-                    Product p = null;
-                    try{
-                        input = scanner.nextLine();
-                        id = Integer.parseInt(input);
-                        p = vendingMachine.request(id);
-                    } catch (InputMismatchException e){
-                        System.out.println("Only numbers allowed");
-                    }
-                    catch (Exception e) {
-                        System.out.println(e.getMessage());
-                    }
-                    System.out.println("Here is your product: " + p.getProductName());
+                    System.out.println(CYAN + "Current balance: " + vendingMachine.getBalance()+ RESET);
                     break;
                 case "5":
-                    System.out.println("Current balance: " + vendingMachine.getBalance());
+                    System.out.println(PURPLE + "Enter an id for the item you want know more about :"+ RESET);
+                    try{
+                        id  = Integer.parseInt(scanner.nextLine());
+                        System.out.println(GREEN + "Here is the description of the item: " + vendingMachine.getDescription(id));
+                    }
+                    catch (Exception e) {
+                        System.out.println(RED + "Error: " + e.getMessage() + RESET);
+                    }
                     break;
                 case "6":
-                    System.out.println("Your change: " + vendingMachine.endSession());
-                    System.out.println("Ending session.");
+                    System.out.println(YELLOW + "Your remaining change: " + vendingMachine.endSession() + RESET);
+                    System.out.println(GREEN + "Ending session." + RESET);
                     session = false;
                     break;
             }
