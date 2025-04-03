@@ -1,6 +1,6 @@
-package se.lexicon.Data;
+package se.lexicon.Option1.Data;
 
-import se.lexicon.model.Product;
+import se.lexicon.Option1.model.Product;
 
 public interface IVendingMachine {
     void addCurrency(int amount);
