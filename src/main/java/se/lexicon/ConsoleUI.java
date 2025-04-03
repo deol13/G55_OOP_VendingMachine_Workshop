@@ -1,10 +1,9 @@
 package se.lexicon;
 
-import se.lexicon.Option1.Data.VendingMachine;
-import se.lexicon.Option1.model.Chips;
-import se.lexicon.Option1.model.Drink;
-import se.lexicon.Option1.model.Product;
-import se.lexicon.Option1.model.SnackBar;
+import se.lexicon.Option2.Data.VendingMachine;
+import se.lexicon.Option2.model.Product;
+//import se.lexicon.Option1.Data.VendingMachine;
+//import se.lexicon.Option1.model.Product;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
