@@ -1,4 +1,7 @@
-package se.lexicon.model;
+package se.lexicon;
+
+import se.lexicon.Data.VendingMachine;
+import se.lexicon.model.*;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;

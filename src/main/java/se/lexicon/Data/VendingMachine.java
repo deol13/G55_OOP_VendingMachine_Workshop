@@ -1,7 +1,9 @@
-package se.lexicon.model;
+package se.lexicon.Data;
+
+import se.lexicon.model.Product;
 
 public class VendingMachine implements IVendingMachine {
-    private double depositPool;
+    private int depositPool;
     private Product[] products;
     private final int[] validCurrency = {1,2,5,10,20,50,100,200,500,1000};
 
@@ -22,7 +24,7 @@ public class VendingMachine implements IVendingMachine {
     }
 
     @Override
-    public double getBalance() {
+    public int getBalance() {
         return depositPool;
     }
 
@@ -42,8 +44,8 @@ public class VendingMachine implements IVendingMachine {
     }
 
     @Override
-    public double endSession() {
-        double sum = depositPool;
+    public int endSession() {
+        int sum = depositPool;
         depositPool = 0;
         return sum;
     }

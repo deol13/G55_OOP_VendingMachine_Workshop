@@ -1,7 +1,5 @@
 package se.lexicon.model;
 
-import java.util.Objects;
-
 public abstract class Product {
 
     private static int sequencer = 0;

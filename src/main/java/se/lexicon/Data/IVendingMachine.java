@@ -1,10 +1,12 @@
-package se.lexicon.model;
+package se.lexicon.Data;
+
+import se.lexicon.model.Product;
 
 public interface IVendingMachine {
     void addCurrency(int amount);
-    double getBalance();
+    int getBalance();
     Product request(int id);
-    double endSession();
+    int endSession();
     String getDescription(int id);
     String[] getProducts();
 }
