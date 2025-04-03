@@ -44,6 +44,7 @@ public class Chips implements Product{
     public void setPrice(double price) {
         Objects.requireNonNull(price, "Price should not be null!");
         if(price <= 0 ) throw new IllegalArgumentException("Price should not be 0 or lower.");
+        this.price = price;
     }
 
     public boolean isRibbed() {
@@ -61,6 +62,6 @@ public class Chips implements Product{
 
     @Override
     public String use() {
-        return "ID: " + getId() + ", Product Name: " + getProductName() + ", Price: " + getPrice();
+        return "ID: " + id + ", Product Name: " + productName + ", Price: " + price;
     }
 }
