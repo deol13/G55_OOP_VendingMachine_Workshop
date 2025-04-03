@@ -9,8 +9,9 @@ public abstract class Product {
 
     public Product(double price, String productName) {
         id = getNextId();
-        setPrice(price);
-        setProductName(productName);
+        // if the feature of adding products to the vending machine is added then these needs to be checked for null/empty.
+        this.price = price;
+        this.productName = productName;
     }
 
     private static int getNextId() {
@@ -25,19 +26,8 @@ public abstract class Product {
         return price;
     }
 
-    public void setPrice(double price) {
-        if(price <= 0) throw new IllegalArgumentException("Price needs to be larger then 0");
-        this.price = price;
-    }
-
     public String getProductName() {
         return productName;
-    }
-
-    public void setProductName(String productName) {
-        //Objects.requireNonNull(productName, "Product Name should not be null!");
-        if(productName == null || productName.trim().isEmpty()) throw new IllegalArgumentException("Product name can't be null or empty.");
-        this.productName = productName;
     }
 
     // Detail information about the product

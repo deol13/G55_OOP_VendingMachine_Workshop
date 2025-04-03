@@ -3,9 +3,11 @@ package se.lexicon.Data;
 import se.lexicon.model.Product;
 
 public class VendingMachine implements IVendingMachine {
+
+    public static final int[] VALID_DENOMINATIONS = {1,2,5,10,20,50,100,200,500,1000};
+
     private int depositPool;
     private Product[] products;
-    private final int[] validCurrency = {1,2,5,10,20,50,100,200,500,1000};
 
     public VendingMachine(Product[] products) {
         depositPool = 0;
@@ -14,13 +16,21 @@ public class VendingMachine implements IVendingMachine {
 
     @Override
     public void addCurrency(int amount) {
-        for (int currency : validCurrency) {
-            if(amount == currency) {
-                depositPool += amount;
-                return;
+        if (isValidDenomination(amount))
+            depositPool += amount;
+        else throw new IllegalArgumentException("Error: Not a valid denomination!");
+    }
+
+    // Tip from Mehrdad's code
+    private boolean isValidDenomination(int amount)  {
+        boolean valid = false;
+        for (int currency : VALID_DENOMINATIONS) {
+            if (amount == currency) {
+                valid = true;
+                break;
             }
         }
-        throw new IllegalArgumentException("Error: Not a valid coin!");
+        return valid;
     }
 
     @Override
@@ -30,17 +40,28 @@ public class VendingMachine implements IVendingMachine {
 
     @Override
     public Product request(int id) {
-        Product selectedProduct = null;
+        Product requestedProduct = findProductById(id);
+        if(requestedProduct != null) {
+            if(requestedProduct.getPrice() <= depositPool) {
+                depositPool -= requestedProduct.getPrice();
+            }
+            else throw new IllegalArgumentException("Not enough deposit for product " + requestedProduct.getProductName());
+        }
+        else throw new IllegalArgumentException("No product with id " + id + " found!");
+
+        return requestedProduct;
+    }
+
+    // Tip from Mehrdad's code
+    private Product findProductById(int id) {
+        Product requestedProduct = null;
         for (Product product : products) {
             if(product.getId() == id) {
-                if(depositPool >= product.getPrice()) {
-                    depositPool -= product.getPrice();
-                    selectedProduct = product;
-                }
-                else throw new IllegalArgumentException("Error: Not enough in deposit pool for that product");
+                requestedProduct = product;
+                break;
             }
         }
-        return selectedProduct;
+        return requestedProduct;
     }
 
     @Override
@@ -52,14 +73,11 @@ public class VendingMachine implements IVendingMachine {
 
     @Override
     public String getDescription(int id) {
-        String info = null;
-        for (Product product : products) {
-            if(product.getId() == id) {
-                info = product.examine();
-                break;
-            }
+        Product product = findProductById(id);
+        if (product != null) {
+            return product.examine();
         }
-        return info;
+        else return "Product with id " + id +" not found!";
     }
 
     @Override
